@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://dcxc1kxwo8pjl"]
+
+[ext_resource type="Script" uid="uid://da4fc8lpcmfih" path="res://Scenes/Tank/tank.gd" id="1_8gbba"]
+[ext_resource type="PackedScene" uid="uid://d22jve1ap5ryf" path="res://Scenes/Tank/test_tank_hull.glb" id="2_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://copt7jxaw780m" path="res://Scenes/Tank/test_tank_cannon.glb" id="3_kry3j"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_21xkr"]
+radius = 1.0
+height = 4.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6bp64"]
+radius = 1.0
+height = 4.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8gbba"]
+size = Vector3(0.9, 1.2, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jjvhh"]
+size = Vector3(0.9, 1.2, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kry3j"]
+size = Vector3(0.9, 1.2, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_344ge"]
+size = Vector3(40, 1, 40)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ynf5e"]
+size = Vector3(40, 1, 40)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_21xkr"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6bp64"]
+size = Vector3(2, 2, 2)
+
+[node name="Main" type="Node3D" unique_id=379695125]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1848783100]
+transform = Transform3D(1, 0, 0, 0, 0.36974677, 0.9291326, 0, -0.9291326, 0.36974677, 0, 30, 14.598)
+
+[node name="Tank" type="CharacterBody3D" parent="." unique_id=1720563343]
+script = ExtResource("1_8gbba")
+
+[node name="Cannon" parent="Tank" unique_id=325412193 instance=ExtResource("3_kry3j")]
+transform = Transform3D(-0.2, 0, -1.7484556e-08, 0, 0.2, 0, 1.7484556e-08, 0, -0.2, 0, 0.5, 0)
+
+[node name="Hull" parent="Tank" unique_id=1910467304 instance=ExtResource("2_jjvhh")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.5, 0)
+
+[node name="Hitbox_Body" type="CollisionShape3D" parent="Tank" unique_id=1833798680]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.2, 0)
+visible = false
+shape = SubResource("CapsuleShape3D_21xkr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tank/Hitbox_Body" unique_id=1431585108]
+mesh = SubResource("CapsuleMesh_6bp64")
+
+[node name="Hitbox_Left_Track" type="CollisionShape3D" parent="Tank" unique_id=1048643363]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1.1, 0)
+visible = false
+shape = SubResource("BoxShape3D_8gbba")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tank/Hitbox_Left_Track" unique_id=960442051]
+mesh = SubResource("BoxMesh_jjvhh")
+
+[node name="Hitbox_Right_Track" type="CollisionShape3D" parent="Tank" unique_id=440006998]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 1.1, 0)
+visible = false
+shape = SubResource("BoxShape3D_8gbba")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tank/Hitbox_Right_Track" unique_id=1538300962]
+mesh = SubResource("BoxMesh_kry3j")
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=2063353066]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=669842462]
+shape = SubResource("BoxShape3D_344ge")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=528615671]
+mesh = SubResource("BoxMesh_ynf5e")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1597709604]
+transform = Transform3D(1, 0, 0, 0, 0.6652303, 0.7466381, 0, -0.7466381, 0.6652303, 0, 94.9498, 44.88677)
+
+[node name="Blocks" type="Node3D" parent="." unique_id=2119881688]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Blocks" unique_id=1567160749]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Blocks/StaticBody3D" unique_id=1527149892]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 2)
+shape = SubResource("BoxShape3D_21xkr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Blocks/StaticBody3D/CollisionShape3D" unique_id=1384269779]
+mesh = SubResource("BoxMesh_6bp64")
