@@ -23,13 +23,13 @@ func _on_body_entered(body):
 "
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8gbba"]
-size = Vector3(0.9, 1.2, 4)
+size = Vector3(0.9, 1, 4)
 
 [sub_resource type="BoxMesh" id="BoxMesh_kry3j"]
-size = Vector3(0.9, 1.2, 4)
+size = Vector3(0.9, 1, 4)
 
 [sub_resource type="BoxMesh" id="BoxMesh_jjvhh"]
-size = Vector3(0.9, 1.2, 4)
+size = Vector3(0.9, 1, 4)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_21xkr"]
 radius = 1.0
@@ -60,6 +60,13 @@ size = Vector3(6, 2, 2)
 [sub_resource type="BoxMesh" id="BoxMesh_21xkr"]
 size = Vector3(6, 2, 2)
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_jjvhh"]
+points = PackedVector3Array(2.5, 0, 3, 2.5, 0, -3, -2.5, 0, 3, -2.5, 0, -3, -2.5, 2, 3, -2.5, 2, -3)
+
+[sub_resource type="PrismMesh" id="PrismMesh_kry3j"]
+left_to_right = 0.0
+size = Vector3(5, 2, 6)
+
 [node name="Main" type="Node3D" unique_id=379695125]
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1848783100]
@@ -67,6 +74,8 @@ transform = Transform3D(1, 0, 0, 0, 0.36974677, 0.9291326, 0, -0.9291326, 0.3697
 
 [node name="Tank" type="CharacterBody3D" parent="." unique_id=1720563343]
 collision_layer = 2
+floor_max_angle = 1.2269665
+floor_snap_length = 0.3
 script = ExtResource("1_8gbba")
 projectile_scene = ExtResource("2_kry3j")
 
@@ -80,12 +89,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03558403, 5.7163258, -14.27
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.5, 0)
 
 [node name="Hitbox" type="Area3D" parent="Tank" unique_id=1554968452]
+visible = false
 collision_layer = 2
 collision_mask = 4
 script = SubResource("GDScript_jjvhh")
 
 [node name="Right_Track" type="CollisionShape3D" parent="Tank/Hitbox" unique_id=440006998]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 1.1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 1, 0)
 visible = false
 shape = SubResource("BoxShape3D_8gbba")
 
@@ -93,16 +103,15 @@ shape = SubResource("BoxShape3D_8gbba")
 mesh = SubResource("BoxMesh_kry3j")
 
 [node name="Left_Track" type="CollisionShape3D" parent="Tank/Hitbox" unique_id=1048643363]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1.1, 0)
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1, 0)
 shape = SubResource("BoxShape3D_8gbba")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Tank/Hitbox/Left_Track" unique_id=960442051]
+visible = false
 mesh = SubResource("BoxMesh_jjvhh")
 
 [node name="Body" type="CollisionShape3D" parent="Tank/Hitbox" unique_id=1833798680]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.2, 0)
-visible = false
 shape = SubResource("CapsuleShape3D_21xkr")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Tank/Hitbox/Body" unique_id=1431585108]
@@ -110,6 +119,7 @@ mesh = SubResource("CapsuleMesh_6bp64")
 
 [node name="Collider" type="CollisionShape3D" parent="Tank" unique_id=1729544466]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
 shape = SubResource("BoxShape3D_kry3j")
 
 [node name="Floor" type="StaticBody3D" parent="." unique_id=2063353066]
@@ -142,3 +152,13 @@ shape = SubResource("BoxShape3D_jjvhh")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Blocks/Block2" unique_id=841007268]
 mesh = SubResource("BoxMesh_21xkr")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=295466824]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, -4)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=102836870]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("ConvexPolygonShape3D_jjvhh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1804335415]
+mesh = SubResource("PrismMesh_kry3j")

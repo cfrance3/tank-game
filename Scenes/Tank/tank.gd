@@ -55,6 +55,8 @@ func handle_movement(delta):
 			turn_speed * delta
 		)
 		
+		$Hitbox.rotation.y = hull.rotation.y
+		
 	else:
 		velocity.x = 0
 		velocity.z = 0
