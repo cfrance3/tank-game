@@ -2,14 +2,21 @@ extends CharacterBody3D
 
 @export var turn_speed := 3.0
 @export var turret_turn_speed := 12.0
+@export var projectile_scene: PackedScene
 
+@onready var camera: Camera3D = get_viewport().get_camera_3d()
 @onready var hull: Node3D = $Hull
 @onready var turret: Node3D = $Cannon
-@onready var camera: Camera3D = get_viewport().get_camera_3d()
+@onready var barrel: Marker3D = $Cannon/Barrel
 
 const SPEED = 8.0
 const JUMP_VELOCITY = 4.5
 
+#TODO: handle collision with projectile via player movement
+
+func _ready() -> void:
+	# Add to friendly group to handle projectile collision
+	add_to_group("friendly", true)
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -74,4 +81,18 @@ func handle_turret_aim():
 	
 	turret.look_at(target, Vector3.UP)
 	
+func _unhandled_input(event):
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			shoot()
+			
+func shoot():
+	if projectile_scene == null:
+		return
 	
+	var projectile = projectile_scene.instantiate()
+	
+	#Position & rotation
+	projectile.global_transform = barrel.global_transform
+	
+	get_tree().current_scene.add_child(projectile)
