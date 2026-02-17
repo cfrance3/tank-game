@@ -7,9 +7,15 @@ extends CharacterBody3D
 var direction: Vector3
 var bounces := 0
 
+signal hit_target
+
 func _ready():
+	add_to_group("projectiles")
+	
 	# Forward is -Z
 	direction = -global_transform.basis.z
+	
+	hit_target.connect(_on_hit_target)
 
 func _physics_process(delta: float) -> void:
 	velocity = direction * speed
@@ -28,8 +34,8 @@ func handle_collision(collision: KinematicCollision3D) -> void:
 	
 	# Projectile hit friendly tank
 	if collider.is_in_group("friendly"):
-		queue_free()
-		#TODO: Add death
+		_on_hit_target()
+		#TODO: Add tank death
 		return
 		
 	# TODO: Projectile hit enemy tank
@@ -43,3 +49,6 @@ func bounce(collision: KinematicCollision3D) -> void:
 	
 	# Rotate projectile
 	look_at(global_position + direction, Vector3.UP)
+	
+func _on_hit_target():
+	queue_free()
