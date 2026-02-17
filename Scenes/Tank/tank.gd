@@ -17,21 +17,21 @@ const JUMP_VELOCITY = 4.5
 func _ready() -> void:
 	# Add to friendly group to handle projectile collision
 	add_to_group("friendly", true)
+	
+	# Connect body entering area to function
+	$Hitbox.body_entered.connect(_on_body_entered)
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	velocity.x = input_dir.x * SPEED
 	velocity.z = input_dir.y * SPEED
+
 
 	handle_turret_aim()
 	handle_movement(delta)
@@ -52,7 +52,7 @@ func handle_movement(delta):
 		hull.rotation.y = lerp_angle(
 			hull.rotation.y,
 			target_angle,
-			turn_speed * get_physics_process_delta_time()
+			turn_speed * delta
 		)
 		
 	else:
@@ -96,3 +96,9 @@ func shoot():
 	projectile.global_transform = barrel.global_transform
 	
 	get_tree().current_scene.add_child(projectile)
+	
+
+func _on_body_entered(body):
+	if body.is_in_group("projectiles"):
+		print("touched")
+		body.hit_target.emit()

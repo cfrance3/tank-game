@@ -7,7 +7,8 @@
 height = 1.7
 
 [node name="tank_projectile" type="CharacterBody3D" unique_id=535570967]
-collision_layer = 2
+collision_layer = 4
+collision_mask = 3
 script = ExtResource("1_m32xg")
 
 [node name="tank_shell" parent="." unique_id=537275216 instance=ExtResource("1_brs3n")]
