@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://u3jva5m1j3gb"]
+
+[ext_resource type="PackedScene" uid="uid://dk7clfsf6lkui" path="res://Scenes/Tank/tank_shell.glb" id="1_brs3n"]
+[ext_resource type="Script" uid="uid://c143471ioe6bq" path="res://Scenes/tank_projectile.gd" id="1_m32xg"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_quh60"]
+height = 1.7
+
+[node name="tank_projectile" type="CharacterBody3D" unique_id=535570967]
+collision_layer = 2
+script = ExtResource("1_m32xg")
+
+[node name="tank_shell" parent="." unique_id=537275216 instance=ExtResource("1_brs3n")]
+transform = Transform3D(-8.742278e-08, 0, -2, 0, 2, 0, 2, 0, -8.742278e-08, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=391720605]
+transform = Transform3D(3.821371e-15, 8.742278e-08, -2, 2, -8.742278e-08, 0, -8.742278e-08, -2, -8.742278e-08, 0, 0, -0.5697048)
+shape = SubResource("CapsuleShape3D_quh60")
