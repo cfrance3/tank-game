@@ -39,6 +39,9 @@ func handle_collision(collision: KinematicCollision3D) -> void:
 		return
 		
 	# TODO: Projectile hit enemy tank
+	if collider.is_in_group("enemy"):
+		_on_hit_target()
+		#TODO: Add enemy death
 	
 	bounce(collision)
 	

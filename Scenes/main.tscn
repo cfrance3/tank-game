@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dcxc1kxwo8pjl"]
 
 [ext_resource type="Script" uid="uid://da4fc8lpcmfih" path="res://Scenes/Tank/tank.gd" id="1_8gbba"]
+[ext_resource type="PackedScene" uid="uid://bhj0mha5usnrd" path="res://Scenes/enemy.tscn" id="1_kry3j"]
 [ext_resource type="PackedScene" uid="uid://d22jve1ap5ryf" path="res://Scenes/Tank/test_tank_hull.glb" id="2_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://u3jva5m1j3gb" path="res://Scenes/tank_projectile.tscn" id="2_kry3j"]
 [ext_resource type="PackedScene" uid="uid://copt7jxaw780m" path="res://Scenes/Tank/test_tank_cannon.glb" id="3_kry3j"]
@@ -69,6 +70,9 @@ size = Vector3(5, 2, 6)
 
 [node name="Main" type="Node3D" unique_id=379695125]
 
+[node name="Enemy" parent="." unique_id=2039828682 instance=ExtResource("1_kry3j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.06967, 0, 9.204779)
+
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1848783100]
 transform = Transform3D(1, 0, 0, 0, 0.36974677, 0.9291326, 0, -0.9291326, 0.36974677, 0, 30, 14.598)
 
@@ -96,7 +100,6 @@ script = SubResource("GDScript_jjvhh")
 
 [node name="Right_Track" type="CollisionShape3D" parent="Tank/Hitbox" unique_id=440006998]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 1, 0)
-visible = false
 shape = SubResource("BoxShape3D_8gbba")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Tank/Hitbox/Right_Track" unique_id=1538300962]
@@ -107,7 +110,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1, 0)
 shape = SubResource("BoxShape3D_8gbba")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Tank/Hitbox/Left_Track" unique_id=960442051]
-visible = false
 mesh = SubResource("BoxMesh_jjvhh")
 
 [node name="Body" type="CollisionShape3D" parent="Tank/Hitbox" unique_id=1833798680]
