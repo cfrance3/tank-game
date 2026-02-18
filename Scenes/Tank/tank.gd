@@ -10,9 +10,7 @@ extends CharacterBody3D
 @onready var barrel: Marker3D = $Cannon/Barrel
 
 const SPEED = 8.0
-const JUMP_VELOCITY = 4.5
 
-#TODO: handle collision with projectile via player movement
 
 func _ready() -> void:
 	# Add to friendly group to handle projectile collision

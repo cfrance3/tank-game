@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://bhj0mha5usnrd"]
+
+[ext_resource type="PackedScene" uid="uid://ckheo3s81llsd" path="res://Scenes/Enemy/test_enemy_cannon.glb" id="1_1f0kj"]
+[ext_resource type="Script" uid="uid://4ge3cj7ghfje" path="res://Scenes/enemy.gd" id="1_afpow"]
+[ext_resource type="PackedScene" uid="uid://ymvw1cwocao5" path="res://Scenes/Enemy/test_enemy_hull.glb" id="2_afpow"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_287tu"]
+size = Vector3(0.9, 1, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0830c"]
+size = Vector3(0.9, 1, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ghaa6"]
+size = Vector3(0.9, 1, 4)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1dp5w"]
+radius = 1.0
+height = 4.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_auwsv"]
+radius = 1.0
+height = 4.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8uf12"]
+size = Vector3(4, 1, 4)
+
+[node name="Enemy" type="CharacterBody3D" unique_id=2039828682]
+script = ExtResource("1_afpow")
+
+[node name="Cannon" parent="." unique_id=1066803175 instance=ExtResource("1_1f0kj")]
+transform = Transform3D(-0.2, 0, -1.7484556e-08, 0, 0.2, 0, 1.7484556e-08, 0, -0.2, 0, 0.5, 0)
+
+[node name="Barrel" type="Marker3D" parent="Cannon" unique_id=60467919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03558403, 5.7163258, -14.27803)
+
+[node name="Hull" parent="." unique_id=1542243904 instance=ExtResource("2_afpow")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.5, 0)
+
+[node name="Hitbox" type="Area3D" parent="." unique_id=272692458]
+visible = false
+
+[node name="Right_Track" type="CollisionShape3D" parent="Hitbox" unique_id=579562044]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 1, 0)
+shape = SubResource("BoxShape3D_287tu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hitbox/Right_Track" unique_id=1606477635]
+mesh = SubResource("BoxMesh_0830c")
+
+[node name="Left_Track" type="CollisionShape3D" parent="Hitbox" unique_id=1450480921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1, 0)
+shape = SubResource("BoxShape3D_287tu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hitbox/Left_Track" unique_id=1274704287]
+mesh = SubResource("BoxMesh_ghaa6")
+
+[node name="Body" type="CollisionShape3D" parent="Hitbox" unique_id=1816111227]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.2, 0)
+shape = SubResource("CapsuleShape3D_1dp5w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hitbox/Body" unique_id=1053105857]
+mesh = SubResource("CapsuleMesh_auwsv")
+
+[node name="Collider" type="CollisionShape3D" parent="." unique_id=540468304]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
+shape = SubResource("BoxShape3D_8uf12")
