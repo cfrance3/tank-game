@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dcxc1kxwo8pjl"]
 
 [ext_resource type="Script" uid="uid://da4fc8lpcmfih" path="res://Scenes/Tank/tank.gd" id="1_8gbba"]
-[ext_resource type="PackedScene" uid="uid://bhj0mha5usnrd" path="res://Scenes/enemy.tscn" id="1_kry3j"]
+[ext_resource type="PackedScene" uid="uid://bhj0mha5usnrd" path="res://Scenes/Enemy/enemy.tscn" id="1_kry3j"]
 [ext_resource type="PackedScene" uid="uid://d22jve1ap5ryf" path="res://Scenes/Tank/test_tank_hull.glb" id="2_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://u3jva5m1j3gb" path="res://Scenes/tank_projectile.tscn" id="2_kry3j"]
 [ext_resource type="PackedScene" uid="uid://copt7jxaw780m" path="res://Scenes/Tank/test_tank_cannon.glb" id="3_kry3j"]

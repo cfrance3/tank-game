@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://u3jva5m1j3gb"]
 
-[ext_resource type="PackedScene" uid="uid://dk7clfsf6lkui" path="res://Scenes/tank_shell.glb" id="1_brs3n"]
+[ext_resource type="PackedScene" uid="uid://dk7clfsf6lkui" path="res://Assets/tank_shell.glb" id="1_brs3n"]
 [ext_resource type="Script" uid="uid://c143471ioe6bq" path="res://Scenes/tank_projectile.gd" id="1_m32xg"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_quh60"]
