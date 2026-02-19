@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dumtvmot0r4oc"]
+
+[ext_resource type="Script" uid="uid://ctt8idcn48e1f" path="res://Scenes/mine.gd" id="1_mygvu"]
+[ext_resource type="PackedScene" uid="uid://hdbhjfpaqmrv" path="res://Assets/test-mine.glb" id="1_qoe3o"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_mygvu"]
+height = 1.2
+radius = 1.6
+
+[node name="Mine" type="Area3D" unique_id=1617099487]
+script = ExtResource("1_mygvu")
+
+[node name="test-mine" parent="." unique_id=1990680952 instance=ExtResource("1_qoe3o")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=562486168]
+shape = SubResource("CylinderShape3D_mygvu")
