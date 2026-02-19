@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://blch2iplum7xb"]
+
+[ext_resource type="PackedScene" uid="uid://321qtbcu03je" path="res://Assets/test-crate-1.glb" id="1_3g77c"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0wbnu"]
+
+[node name="StaticBody3D" type="StaticBody3D" unique_id=443840116]
+
+[node name="test-crate-1" parent="." unique_id=2029390514 instance=ExtResource("1_3g77c")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=158198537]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0)
+shape = SubResource("BoxShape3D_0wbnu")

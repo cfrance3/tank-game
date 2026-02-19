@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dk7clfsf6lkui"
-path="res://.godot/imported/tank_shell.glb-14e99108ceb2a3065780405bf5f46aed.scn"
+uid="uid://321qtbcu03je"
+path="res://.godot/imported/test-crate-1.glb-1cd928be2938cb28374417b852678858.scn"
 
 [deps]
 
-source_file="res://Scenes/tank_shell.glb"
-dest_files=["res://.godot/imported/tank_shell.glb-14e99108ceb2a3065780405bf5f46aed.scn"]
+source_file="res://Assets/test-crate-1.glb"
+dest_files=["res://.godot/imported/test-crate-1.glb-1cd928be2938cb28374417b852678858.scn"]
 
 [params]
 
