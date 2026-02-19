@@ -11,6 +11,7 @@ extends CharacterBody3D
 
 const SPEED = 8.0
 
+signal got_hit
 
 func _ready() -> void:
 	# Add to friendly group to handle projectile collision
@@ -18,6 +19,8 @@ func _ready() -> void:
 	
 	# Connect body entering area to function
 	$Hitbox.body_entered.connect(_on_body_entered)
+	
+	got_hit.connect(_on_got_hit)
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -102,3 +105,7 @@ func _on_body_entered(body):
 	if body.is_in_group("projectiles"):
 		print("touched")
 		body.hit_target.emit()
+		
+func _on_got_hit() -> void:
+	queue_free()
+	#TODO: ADD DEATH EFFECTS
