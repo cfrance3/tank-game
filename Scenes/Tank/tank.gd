@@ -3,13 +3,17 @@ extends CharacterBody3D
 @export var turn_speed := 3.0
 @export var turret_turn_speed := 12.0
 @export var projectile_scene: PackedScene
+@export var mine_scene : PackedScene
 
 @onready var camera: Camera3D = get_viewport().get_camera_3d()
 @onready var hull: Node3D = $Hull
 @onready var turret: Node3D = $Cannon
 @onready var barrel: Marker3D = $Cannon/Barrel
+@onready var mine_layer : Marker3D = $Hull/MineLayer
 
 const SPEED = 8.0
+
+var mines_left := 3
 
 signal got_hit
 
@@ -88,6 +92,9 @@ func _unhandled_input(event):
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			shoot()
+		
+	if Input.get_action_strength("ui_accept") > 0:
+		_lay_mine()
 			
 func shoot():
 	if projectile_scene == null:
@@ -100,11 +107,28 @@ func shoot():
 	
 	get_tree().current_scene.add_child(projectile)
 	
+func _lay_mine() -> bool:
+	if !(mines_left > 0):
+		return false
+	if mine_scene == null:
+		return false
+	
+	var mine = mine_scene.instantiate()
+	
+	mine.global_position = mine_layer.global_position
+	
+	get_tree().current_scene.add_child(mine)
+	mines_left -= 1
+	return true
+	
+		
+	
 
 func _on_body_entered(body):
 	if body.is_in_group("projectiles"):
 		print("touched")
 		body.hit_target.emit()
+		
 		
 func _on_got_hit() -> void:
 	queue_free()
