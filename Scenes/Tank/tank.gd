@@ -93,7 +93,7 @@ func _unhandled_input(event):
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			shoot()
 		
-	if Input.get_action_strength("ui_accept") > 0:
+	if Input.is_action_just_pressed("ui_accept"):
 		_lay_mine()
 			
 func shoot():
@@ -126,8 +126,9 @@ func _lay_mine() -> bool:
 
 func _on_body_entered(body):
 	if body.is_in_group("projectiles"):
-		print("touched")
-		body.hit_target.emit()
+		if body.armed:
+			_on_got_hit()
+			body.hit_target.emit()
 		
 		
 func _on_got_hit() -> void:

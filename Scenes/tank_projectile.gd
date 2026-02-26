@@ -7,10 +7,20 @@ extends CharacterBody3D
 var direction: Vector3
 var bounces := 0
 
+const TIME_TO_ARM = .5 # seconds
+var armed := false
+
 signal hit_target
 
 func _ready():
 	add_to_group("projectiles")
+	
+	var timer = Timer.new()
+	timer.wait_time = TIME_TO_ARM
+	timer.one_shot = true
+	add_child(timer)
+	timer.start()
+	timer.timeout.connect(_arm_mine)
 	
 	# Forward is -Z
 	direction = -global_transform.basis.z
@@ -32,16 +42,18 @@ func handle_collision(collision: KinematicCollision3D) -> void:
 		
 	var collider = collision.get_collider()
 	
-	# Projectile hit friendly tank
-	if collider.is_in_group("friendly"):
-		_on_hit_target()
-		collider.got_hit.emit()
-		return
-		
-	# Projectile hit enemy tank
-	if collider.is_in_group("enemy"):
-		_on_hit_target()
-		collider.got_hit.emit()
+	if armed:
+		# Projectile hit friendly tank
+		if collider.is_in_group("friendly"):
+			_on_hit_target()
+			collider.got_hit.emit()
+			return
+			
+		# Projectile hit enemy tank
+		if collider.is_in_group("enemy"):
+			_on_hit_target()
+			collider.got_hit.emit()
+			return
 	
 	bounce(collision)
 	
@@ -55,3 +67,6 @@ func bounce(collision: KinematicCollision3D) -> void:
 	
 func _on_hit_target():
 	queue_free()
+	
+func _arm_mine():
+	armed = true

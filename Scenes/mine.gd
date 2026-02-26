@@ -16,9 +16,6 @@ func _ready() -> void:
 	add_to_group("mines")
 	body_entered.connect(_on_body_entered)
 	
-	
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
