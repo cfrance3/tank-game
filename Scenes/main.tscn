@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://u3jva5m1j3gb" path="res://Scenes/tank_projectile.tscn" id="2_kry3j"]
 [ext_resource type="PackedScene" uid="uid://copt7jxaw780m" path="res://Scenes/Tank/test_tank_cannon.glb" id="3_kry3j"]
 [ext_resource type="PackedScene" uid="uid://dumtvmot0r4oc" path="res://Scenes/mine.tscn" id="6_21xkr"]
+[ext_resource type="PackedScene" uid="uid://blch2iplum7xb" path="res://Scenes/test-crate-1.tscn" id="7_6bp64"]
+[ext_resource type="PackedScene" uid="uid://delghkhre25ay" path="res://Scenes/static_body_3d.tscn" id="8_344ge"]
 
 [sub_resource type="GDScript" id="GDScript_jjvhh"]
 
@@ -47,12 +49,11 @@ size = Vector3(6, 2, 2)
 [sub_resource type="BoxMesh" id="BoxMesh_21xkr"]
 size = Vector3(6, 2, 2)
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_jjvhh"]
-points = PackedVector3Array(2.5, 0, 3, 2.5, 0, -3, -2.5, 0, 3, -2.5, 0, -3, -2.5, 2, 3, -2.5, 2, -3)
+[sub_resource type="BoxShape3D" id="BoxShape3D_6bp64"]
+size = Vector3(40, 7, 1)
 
-[sub_resource type="PrismMesh" id="PrismMesh_kry3j"]
-left_to_right = 0.0
-size = Vector3(5, 2, 6)
+[sub_resource type="BoxMesh" id="BoxMesh_344ge"]
+size = Vector3(40, 7, 1)
 
 [node name="Main" type="Node3D" unique_id=379695125]
 
@@ -80,7 +81,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03558403, 5.7163258, -14.27
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.5, 0)
 
 [node name="MineLayer" type="Marker3D" parent="Tank/Hull" unique_id=95691840]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44436932, -16.223738)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44436932, -10.6783905)
 
 [node name="Hitbox" type="Area3D" parent="Tank" unique_id=1554968452]
 visible = false
@@ -145,18 +146,50 @@ shape = SubResource("BoxShape3D_jjvhh")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Blocks/Block2" unique_id=841007268]
 mesh = SubResource("BoxMesh_21xkr")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=295466824]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, -4)
+[node name="Walls" type="Node3D" parent="." unique_id=284222892]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=102836870]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-shape = SubResource("ConvexPolygonShape3D_jjvhh")
+[node name="StaticBody3D" type="StaticBody3D" parent="Walls" unique_id=1773389395]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20.372395)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1804335415]
-mesh = SubResource("PrismMesh_kry3j")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/StaticBody3D" unique_id=1866492753]
+shape = SubResource("BoxShape3D_6bp64")
 
-[node name="Node3D" type="Node3D" parent="." unique_id=95382175]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8784904, 12.594036)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/StaticBody3D" unique_id=793942115]
+mesh = SubResource("BoxMesh_344ge")
 
-[node name="Mine" parent="Node3D" unique_id=1617099487 instance=ExtResource("6_21xkr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.59846306, 0)
+[node name="StaticBody3D2" type="StaticBody3D" parent="Walls" unique_id=84846141]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20.500216)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/StaticBody3D2" unique_id=372567378]
+shape = SubResource("BoxShape3D_6bp64")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/StaticBody3D2" unique_id=1442115998]
+mesh = SubResource("BoxMesh_344ge")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="Walls" unique_id=1409317685]
+transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, -4.3711385e-08, -20, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/StaticBody3D3" unique_id=502065088]
+shape = SubResource("BoxShape3D_6bp64")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/StaticBody3D3" unique_id=1371786032]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_344ge")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="Walls" unique_id=1963271298]
+transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, -4.3711385e-08, 20, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/StaticBody3D4" unique_id=901715005]
+shape = SubResource("BoxShape3D_6bp64")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/StaticBody3D4" unique_id=64378052]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("BoxMesh_344ge")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=254056660]
+
+[node name="StaticBody3D" parent="Node3D" unique_id=443840116 instance=ExtResource("7_6bp64")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0311, 0.43988037, 8.761499)
+
+[node name="StaticBody3D2" parent="Node3D" unique_id=485796289 instance=ExtResource("8_344ge")]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, -9.148125, 3.042324, -9.400858)
