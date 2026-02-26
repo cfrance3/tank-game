@@ -115,10 +115,11 @@ func _lay_mine() -> bool:
 	
 	var mine = mine_scene.instantiate()
 	
-	mine.global_position = mine_layer.global_position
-	
 	get_tree().current_scene.add_child(mine)
+	
+	mine.global_position = mine_layer.global_position
 	mines_left -= 1
+	
 	return true
 	
 		

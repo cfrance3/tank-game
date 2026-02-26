@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ctt8idcn48e1f" path="res://Scenes/mine.gd" id="1_mygvu"]
 [ext_resource type="PackedScene" uid="uid://hdbhjfpaqmrv" path="res://Assets/test-mine.glb" id="1_qoe3o"]
+[ext_resource type="PackedScene" uid="uid://devkjo71jb1a2" path="res://Scenes/explosion.tscn" id="2_o84ae"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_mygvu"]
 height = 1.2
@@ -11,6 +12,7 @@ radius = 1.6
 collision_layer = 7
 collision_mask = 3
 script = ExtResource("1_mygvu")
+explosion_effect = ExtResource("2_o84ae")
 
 [node name="test-mine" parent="." unique_id=1990680952 instance=ExtResource("1_qoe3o")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)

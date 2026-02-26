@@ -4,6 +4,8 @@ const TIME_TO_ARM = 1.0 # seconds
 
 var armed := false
 
+@export var explosion_effect : PackedScene
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var timer = Timer.new()
@@ -16,10 +18,6 @@ func _ready() -> void:
 	add_to_group("mines")
 	body_entered.connect(_on_body_entered)
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-	
 func _on_body_entered(body) -> void:
 	if body.is_in_group("friendly") or body.is_in_group("enemy"):
 		if armed:
@@ -27,8 +25,8 @@ func _on_body_entered(body) -> void:
 			_explode()
 	
 func _explode() -> void:
+	_play_explosion_effect()
 	queue_free()
-	#TODO: implement explosion
 	
 func _arm_mine() -> void:
 	armed = true
@@ -39,4 +37,11 @@ func check_current_overlaps_and_explode():
 		if body.is_in_group("friendly") or body.is_in_group("enemy"):
 			body.got_hit.emit()
 			_explode()
+			
+func _play_explosion_effect() -> void:
+	var explosion = explosion_effect.instantiate()
+	
+	get_tree().current_scene.add_child(explosion)
+	explosion.global_position = self.global_position
+	explosion._explode()
 	
