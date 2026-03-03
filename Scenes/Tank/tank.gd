@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-@export var turn_speed := 3.0
+@export var turn_speed := 4.0
 @export var turret_turn_speed := 12.0
 @export var projectile_scene: PackedScene
 @export var mine_scene : PackedScene
@@ -42,23 +42,31 @@ func handle_movement(delta):
 	if input.length() > 0:
 		input = input.normalized()
 		
-		velocity.x = input.x * SPEED
-		velocity.z = input.y * SPEED
-		
 		var target_angle = atan2(input.x, input.y)
-		hull.rotation.y = lerp_angle(
-			hull.rotation.y,
-			target_angle,
-			turn_speed * delta
-		)
+		var current_angle = hull.rotation.y
+		var angle_diff = wrapf(target_angle - current_angle, -PI, PI)
 		
+		var flip_threshold = deg_to_rad(110)
+		
+		if abs(angle_diff) > flip_threshold:
+			angle_diff = wrap(angle_diff - sign(angle_diff) * PI, -PI, PI)
+			
+		hull.rotation.y += clamp(angle_diff, -turn_speed * delta, turn_speed * delta)
 		$Hitbox.rotation.y = hull.rotation.y
+		
+		var forward = -hull.transform.basis.z.normalized()
+		var move_dir = Vector3(input.x, 0, input.y).normalized()
+		var alignment = forward.dot(move_dir)
+		
+		var speed_multiplier = abs(alignment)
+		speed_multiplier = lerp(0.00, 1.0, speed_multiplier)
+		
+		velocity = move_dir * SPEED * speed_multiplier
 		
 	else:
 		velocity.x = 0
 		velocity.z = 0
 		
-	#print(velocity.length())
 	move_and_slide()
 	
 func handle_turret_aim():
