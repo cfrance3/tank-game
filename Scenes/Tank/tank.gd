@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 @export var turn_speed := 4.0
-@export var turret_turn_speed := 12.0
+
 @export var projectile_scene: PackedScene
 @export var mine_scene : PackedScene
 @export var smoke_scene : PackedScene
@@ -30,10 +30,10 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if not frozen:
-		handle_turret_aim()
-		handle_movement(delta)
+		_handle_turret_aim()
+		_handle_movement(delta)
 	
-func handle_movement(delta):
+func _handle_movement(delta):
 	var input = Vector2(
 		Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
 		Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
@@ -43,7 +43,7 @@ func handle_movement(delta):
 		input = input.normalized()
 		
 		var target_angle = atan2(input.x, input.y)
-		var current_angle = hull.rotation.y
+		var current_angle = hull.global_rotation.y
 		var angle_diff = wrapf(target_angle - current_angle, -PI, PI)
 		
 		var flip_threshold = deg_to_rad(110)
@@ -69,7 +69,7 @@ func handle_movement(delta):
 		
 	move_and_slide()
 	
-func handle_turret_aim():
+func _handle_turret_aim():
 	var mouse_pos = get_viewport().get_mouse_position()
 	
 	var ray_origin = camera.project_ray_origin(mouse_pos)
