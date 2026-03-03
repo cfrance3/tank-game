@@ -25,7 +25,6 @@ func _ready():
 	
 	# Forward is -Z
 	direction = -global_transform.basis.z.normalized()
-	print(direction.length())
 	hit_target.connect(_on_hit_target)
 
 func _physics_process(delta: float) -> void:
