@@ -1,14 +1,14 @@
 extends CharacterBody3D
 
 
-@export var speed := 40.0
 @export var max_bounces := 3
 @export var explosion_effect : PackedScene
 
 var direction: Vector3
 var bounces := 0
+const SPEED = 15.0
 
-const TIME_TO_ARM = .5 # seconds
+const TIME_TO_ARM = .1 # seconds
 var armed := false
 
 signal hit_target
@@ -24,15 +24,16 @@ func _ready():
 	timer.timeout.connect(_arm_mine)
 	
 	# Forward is -Z
-	direction = -global_transform.basis.z
-	
+	direction = -global_transform.basis.z.normalized()
+	print(direction.length())
 	hit_target.connect(_on_hit_target)
 
 func _physics_process(delta: float) -> void:
-	velocity = direction * speed
-	var collision = move_and_collide(velocity*delta)
+	velocity = direction * SPEED
+	move_and_slide()
 	
-	if collision:
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
 		handle_collision(collision)
 
 func handle_collision(collision: KinematicCollision3D) -> void:
