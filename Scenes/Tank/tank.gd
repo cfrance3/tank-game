@@ -4,6 +4,7 @@ extends CharacterBody3D
 @export var turret_turn_speed := 12.0
 @export var projectile_scene: PackedScene
 @export var mine_scene : PackedScene
+@export var smoke_scene : PackedScene
 
 @onready var camera: Camera3D = get_viewport().get_camera_3d()
 @onready var hull: Node3D = $Hull
@@ -11,9 +12,10 @@ extends CharacterBody3D
 @onready var barrel: Marker3D = $Cannon/Barrel
 @onready var mine_layer : Marker3D = $Hull/MineLayer
 
-const SPEED = 8.0
+const SPEED = 10.0
 
 var mines_left := 3
+var frozen := false
 
 signal got_hit
 
@@ -27,19 +29,9 @@ func _ready() -> void:
 	got_hit.connect(_on_got_hit)
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	velocity.x = input_dir.x * SPEED
-	velocity.z = input_dir.y * SPEED
-
-
-	handle_turret_aim()
-	handle_movement(delta)
+	if not frozen:
+		handle_turret_aim()
+		handle_movement(delta)
 	
 func handle_movement(delta):
 	var input = Vector2(
@@ -66,6 +58,7 @@ func handle_movement(delta):
 		velocity.x = 0
 		velocity.z = 0
 		
+	#print(velocity.length())
 	move_and_slide()
 	
 func handle_turret_aim():
@@ -90,7 +83,7 @@ func handle_turret_aim():
 	
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_LEFT:
+		if event.button_index == MOUSE_BUTTON_LEFT and not frozen:
 			shoot()
 		
 	if Input.is_action_just_pressed("ui_accept"):
@@ -122,7 +115,6 @@ func _lay_mine() -> bool:
 	
 	return true
 	
-		
 	
 
 func _on_body_entered(body):
@@ -133,5 +125,14 @@ func _on_body_entered(body):
 		
 		
 func _on_got_hit() -> void:
-	queue_free()
+	if not frozen:
+		_play_smoke_effect()
+		frozen = true
 	#TODO: ADD DEATH EFFECTS
+	
+func _play_smoke_effect() -> void:
+	var smoke = smoke_scene.instantiate()
+	
+	get_tree().current_scene.add_child(smoke)
+	smoke.global_position = self.global_position
+	smoke.start()
